@@ -18,7 +18,7 @@ OUTPUT_DIR = ROOT / "data" / "leftci_project_sources"
 
 MEMORIES_PATH = MEMORY_DB_DIR / "leftci_memories.jsonl"
 
-MAX_PROJECT_MD_FILES = 20
+MAX_PROJECT_MD_FILES = 10
 FIXED_MD_FILES = 3
 CHUNK_FILES_ALLOWED = MAX_PROJECT_MD_FILES - FIXED_MD_FILES
 
@@ -313,7 +313,10 @@ def estimate_memory_chars(memories: list[dict[str, Any]]) -> int:
 
 def choose_chunk_size(memories: list[dict[str, Any]]) -> int:
     total_chars = estimate_memory_chars(memories)
-    return max(300_000, math.ceil(total_chars / CHUNK_FILES_ALLOWED * 1.08))
+
+    # 压缩项目源文件数：目标是 3 个固定文件 + 7 个记忆分卷 = 10 个 md 左右。
+    # 单个分卷会比之前大，但更适合给后续世界书、梦境、信件、日记系统留项目源空间。
+    return max(1_800_000, math.ceil(total_chars / CHUNK_FILES_ALLOWED * 1.12))
 
 
 def chunk_memories(memories: list[dict[str, Any]], chunk_size: int) -> list[list[dict[str, Any]]]:
