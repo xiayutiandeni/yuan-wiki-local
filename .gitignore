@@ -1,0 +1,10 @@
+﻿data/
+__pycache__/
+*.pyc
+*.zip
+*.tar.gz
+*.7z
+.venv/
+.env
+
+*_backup_*.py
